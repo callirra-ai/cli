@@ -49,6 +49,7 @@ callirra cancel <id>               # Cancel a task
 callirra prompt templates          # List built-in templates
 callirra prompt enhance <id> <text> [--kind video|image] [--language zh|en]
 callirra creative [--full]         # Show creative knowledge summary or full JSON
+callirra upload ./frame.png --content-type image/png  # Upload reference image
 ```
 
 ### `gen image`
@@ -60,7 +61,7 @@ callirra gen image "A cinematic product hero shot" \
   --out hero.png
 ```
 
-Options: `--model`, `--size`, `--n`, `--out`.
+Options: `--model`, `--size`, `--n`, `--out`, `--reference <url1,url2>`, `--image-input <url>`.
 
 ### `gen video`
 
@@ -75,7 +76,7 @@ callirra gen video "A drone shot over mountains" \
   --out clip.mp4
 ```
 
-Options: `--model`, `--duration`, `--resolution`, `--mode`, `--aspect-ratio`, `--generate-audio`, `--wait`, `--out`.
+Options: `--model`, `--duration`, `--resolution`, `--mode`, `--aspect-ratio`, `--generate-audio`, `--frame-image <url1,url2>`, `--input-reference <url1,url2>`, `--wait`, `--out`.
 
 ## Configuration
 

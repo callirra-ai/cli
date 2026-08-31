@@ -29,5 +29,21 @@
                             "@types/node":  "22.10.5",
                             "tsx":  "^4.19.2",
                             "typescript":  "5.7.2"
-                        }
+                        },
+    "repository":  {
+                       "type":  "git",
+                       "url":  "https://github.com/callirra-ai/cli.git"
+                   },
+    "homepage":  "https://callirra.com?utm_source=github-cli",
+    "bugs":  {
+                 "url":  "https://github.com/callirra-ai/cli/issues"
+             },
+    "keywords":  [
+                     "callirra",
+                     "cli",
+                     "ai",
+                     "image-generation",
+                     "video-generation",
+                     "openai-compatible"
+                 ]
 }

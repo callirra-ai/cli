@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 import { parseArgs } from 'node:util';
+import { readFile } from 'node:fs/promises';
 import { basename, resolve } from 'node:path';
 import { CallirraClient, KEY_PREFIX } from './client.js';
 import { CliError, resolveApiKey, saveApiKey } from './config.js';
@@ -39,9 +40,10 @@ Commands:
   usage [--limit n]          Show recent usage (default 20)
   task <id>                  Show one video task
   cancel <id>                Cancel a queued/running video task
+  upload <file>              Upload a reference image
   prompt templates           List Prompt Studio templates
   prompt enhance <id> <text> Enhance a prompt with a built-in template
-  creative                   Show creative knowledge / resource data
+  creative [--full]          Show creative knowledge / resource data
   gen image <prompt>         Generate an image
     --model <slug>           Model slug (required)
     --size <size>            Image size (e.g. 1024x1024)
@@ -167,7 +169,7 @@ async function run(argv: string[]): Promise<void> {
         templateId,
         idea,
         kind: parsed.values.kind === 'video' || parsed.values.kind === 'image' ? parsed.values.kind : undefined,
-        language: parsed.values.language === 'en' ? 'en' : 'zh',
+        language: parsed.values.language === 'zh' || parsed.values.language === 'en' ? parsed.values.language : undefined,
       });
       console.log(JSON.stringify(result, null, 2));
       return;
@@ -187,6 +189,21 @@ async function run(argv: string[]): Promise<void> {
     console.log(`categories: ${data.categories.length}`);
     console.log(`resources: ${data.resources.length}`);
     console.log(`styles: ${data.styles.length}`);
+    return;
+  }
+
+  if (command === 'upload') {
+    const file = rest[0];
+    if (!file) throw new CliError('Usage: callirra upload <file> [--content-type image/png]');
+    const parsed = parseArgs({ args: rest.slice(1), options: { 'content-type': { type: 'string' } }, strict: false });
+    const c = await client();
+    const data = await readFile(resolve(file), 'base64');
+    const result = await c.uploadReference({
+      data,
+      content_type: stringOption(parsed.values['content-type']) ?? 'image/png',
+      filename: basename(file),
+    });
+    console.log(result.url);
     return;
   }
 
@@ -213,6 +230,8 @@ async function runImage(c: CallirraClient, args: string[]): Promise<void> {
       size: { type: 'string' },
       n: { type: 'string' },
       out: { type: 'string' },
+      reference: { type: 'string' },
+      'image-input': { type: 'string' },
     },
     strict: false,
   });
@@ -220,20 +239,26 @@ async function runImage(c: CallirraClient, args: string[]): Promise<void> {
   const n = parsed.values.n ? Number(parsed.values.n) : 1;
   const size = stringOption(parsed.values.size);
   const out = stringOption(parsed.values.out) ? resolve(stringOption(parsed.values.out)!) : undefined;
+  const reference = stringOption(parsed.values.reference)?.split(',').map((s) => s.trim()).filter(Boolean) ?? [];
   const result = await c.generateImage({
     model,
     prompt,
     size,
     n: Number.isFinite(n) && n > 0 ? n : 1,
+    image_input: stringOption(parsed.values['image-input']),
+    reference_images: reference.length > 0 ? reference : undefined,
   });
-  const image = result.data?.[0];
-  if (image?.b64_json && out) {
-    await c.saveBase64Image(image.b64_json, out);
+  const images = result.data ?? [];
+  const urls = images.map((img) => img.url).filter((v): v is string => Boolean(v));
+  const firstB64 = images[0]?.b64_json;
+  if (firstB64 && out) {
+    await c.saveBase64Image(firstB64, out);
     console.log(`Saved image to ${out}`);
+    if (urls.length > 0) urls.forEach((url) => console.log(url));
     return;
   }
-  if (image?.url) {
-    console.log(image.url);
+  if (urls.length > 0) {
+    urls.forEach((url) => console.log(url));
     return;
   }
   console.log(JSON.stringify(result, null, 2));
@@ -252,6 +277,8 @@ async function runVideo(c: CallirraClient, args: string[]): Promise<void> {
       mode: { type: 'string' },
       'aspect-ratio': { type: 'string' },
       'generate-audio': { type: 'boolean', default: false },
+      'frame-image': { type: 'string' },
+      'input-reference': { type: 'string' },
       wait: { type: 'boolean', default: false },
       out: { type: 'string' },
     },
@@ -262,6 +289,8 @@ async function runVideo(c: CallirraClient, args: string[]): Promise<void> {
   const resolution = stringOption(parsed.values.resolution);
   const mode = stringOption(parsed.values.mode);
   const aspectRatio = stringOption(parsed.values['aspect-ratio']);
+  const frameImages = stringOption(parsed.values['frame-image'])?.split(',').map((s) => s.trim()).filter(Boolean) ?? [];
+  const inputReferences = stringOption(parsed.values['input-reference'])?.split(',').map((s) => s.trim()).filter(Boolean) ?? [];
   const { job } = await c.createVideo({
     model,
     prompt,
@@ -270,6 +299,8 @@ async function runVideo(c: CallirraClient, args: string[]): Promise<void> {
     mode,
     aspect_ratio: aspectRatio,
     generate_audio: parsed.values['generate-audio'] === true,
+    frame_images: frameImages.length > 0 ? frameImages : undefined,
+    input_references: inputReferences.length > 0 ? inputReferences : undefined,
   });
   console.log(`Job created: ${job.id} (${job.status})`);
 
