@@ -178,6 +178,11 @@ async function run(argv: string[]): Promise<void> {
   if (command === 'creative') {
     const c = await client();
     const data = await c.getCreativeKnowledge();
+    const parsed = parseArgs({ args: rest, options: { full: { type: 'boolean', default: false } }, strict: false });
+    if (parsed.values.full) {
+      console.log(JSON.stringify(data, null, 2));
+      return;
+    }
     console.log(`version: ${data.version}`);
     console.log(`categories: ${data.categories.length}`);
     console.log(`resources: ${data.resources.length}`);
