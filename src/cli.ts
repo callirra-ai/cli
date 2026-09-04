@@ -1,4 +1,4 @@
-/* eslint-disable no-console */
+﻿/* eslint-disable no-console */
 import { parseArgs } from 'node:util';
 import { readFile } from 'node:fs/promises';
 import { basename, resolve } from 'node:path';

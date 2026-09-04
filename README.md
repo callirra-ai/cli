@@ -25,7 +25,7 @@ callirra setup-api-key sk-cal-xxxxxxxxxxxxxxxx
 
 ```bash
 callirra models
-callirra gen image "A cinematic product hero shot" --model nano-banana --out hero.png
+callirra gen image "A cinematic product hero shot" --model nano-banana-2 --out hero.png
 callirra gen video "A drone shot over mountains" --model seedance-2.5 --duration 10 --wait --out clip.mp4
 ```
 
@@ -34,7 +34,7 @@ callirra gen video "A drone shot over mountains" --model seedance-2.5 --duration
 ```bash
 # Account
 callirra setup-api-key <key>       # Save API key locally
-callirra whoami                    # Show key status + balance
+callirra whoami                    # Show configured key + balance
 callirra balance                   # Show balance and available credits
 callirra usage --limit 10          # Show recent usage
 
@@ -56,7 +56,7 @@ callirra upload ./frame.png --content-type image/png  # Upload reference image
 
 ```bash
 callirra gen image "A cinematic product hero shot" \
-  --model nano-banana \
+  --model nano-banana-2 \
   --size 1024x1024 \
   --out hero.png
 ```
@@ -93,4 +93,4 @@ MIT. Source: [github.com/callirra-ai/cli](https://github.com/callirra-ai/cli?utm
 
 ---
 
-→ Start free at [callirra.com](https://callirra.com?utm_source=github-cli)
+Start free at [callirra.com](https://callirra.com?utm_source=github-cli)

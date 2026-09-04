@@ -1,4 +1,4 @@
-import { homedir } from 'node:os';
+﻿import { homedir } from 'node:os';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { KEY_PREFIX } from './client.js';
