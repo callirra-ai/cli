@@ -1,49 +1,53 @@
-﻿{
-    "name":  "@callirra/cli",
-    "version":  "0.1.0",
-    "description":  "Callirra CLI 鈥?generate images/videos and manage your account from the terminal.",
-    "license":  "MIT",
-    "type":  "module",
-    "bin":  {
-                "callirra":  "./dist/index.js"
-            },
-    "main":  "./dist/index.js",
-    "exports":  {
-                    ".":  "./dist/index.js"
-                },
-    "files":  [
-                  "dist"
-              ],
-    "scripts":  {
-                    "build":  "tsc -p tsconfig.json",
-                    "typecheck":  "tsc -p tsconfig.json --noEmit",
-                    "test":  "node --test --import tsx ./test/*.test.ts"
-                },
-    "engines":  {
-                    "node":  "\u003e=22"
-                },
-    "dependencies":  {
-
-                     },
-    "devDependencies":  {
-                            "@types/node":  "22.10.5",
-                            "tsx":  "^4.19.2",
-                            "typescript":  "5.7.2"
-                        },
-    "repository":  {
-                       "type":  "git",
-                       "url":  "https://github.com/callirra-ai/cli.git"
-                   },
-    "homepage":  "https://callirra.com?utm_source=github-cli",
-    "bugs":  {
-                 "url":  "https://github.com/callirra-ai/cli/issues"
-             },
-    "keywords":  [
-                     "callirra",
-                     "cli",
-                     "ai",
-                     "image-generation",
-                     "video-generation",
-                     "openai-compatible"
-                 ]
+{
+  "name": "@callirra/cli",
+  "version": "0.1.0",
+  "description": "Callirra CLI — generate images/videos and manage your account from the terminal.",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "callirra": "./dist/index.js"
+  },
+  "main": "./dist/index.js",
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "node --test --import tsx ./test/*.test.ts",
+    "prepublishOnly": "pnpm build"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "dependencies": {
+    "@callirra/client": "^0.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "22.10.5",
+    "tsx": "^4.19.2",
+    "typescript": "5.7.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/callirra-ai/cli.git"
+  },
+  "homepage": "https://callirra.com?utm_source=github-cli",
+  "bugs": {
+    "url": "https://github.com/callirra-ai/cli/issues"
+  },
+  "keywords": [
+    "callirra",
+    "cli",
+    "ai",
+    "image-generation",
+    "video-generation",
+    "openai-compatible"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
 }

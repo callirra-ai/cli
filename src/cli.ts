@@ -1,11 +1,22 @@
-﻿/* eslint-disable no-console */
+/* eslint-disable no-console */
 import { parseArgs } from 'node:util';
 import { readFile } from 'node:fs/promises';
 import { basename, resolve } from 'node:path';
-import { CallirraClient, KEY_PREFIX } from './client.js';
+import { CallirraClient, KEY_PREFIX } from '@callirra/client';
 import { CliError, resolveApiKey, saveApiKey } from './config.js';
 
 let activeClient: CallirraClient | null = null;
+
+/** Read the CLI version from package.json (avoid hardcoded drift). */
+async function packageVersion(): Promise<string> {
+  try {
+    const raw = await readFile(new URL('../package.json', import.meta.url), 'utf8');
+    const pkg = JSON.parse(raw) as { version?: string };
+    return pkg.version ?? '0.0.0';
+  } catch {
+    return '0.0.0';
+  }
+}
 
 async function client(): Promise<CallirraClient> {
   if (!activeClient) {
@@ -82,7 +93,7 @@ async function run(argv: string[]): Promise<void> {
   const [command, ...rest] = argv;
 
   if (command === '--version' || command === '-v') {
-    console.log('0.1.0');
+    console.log(await packageVersion());
     return;
   }
 
@@ -136,6 +147,16 @@ async function run(argv: string[]): Promise<void> {
     const c = await client();
     const { job } = await c.getTask(id);
     console.log(JSON.stringify(job, null, 2));
+    return;
+  }
+
+  if (command === 'videos' || command === 'list-videos') {
+    const c = await client();
+    const parsed = parseArgs({ args: rest, options: { limit: { type: 'string' } }, strict: false });
+    const limit = Number(parsed.values.limit ?? 20);
+    const { data } = await c.listVideos(Number.isFinite(limit) ? limit : 20);
+    for (const row of data) console.log(`${row.id}\t${row.status}`);
+    if (data.length === 0) console.log('No video jobs found.');
     return;
   }
 
@@ -197,10 +218,10 @@ async function run(argv: string[]): Promise<void> {
     if (!file) throw new CliError('Usage: callirra upload <file> [--content-type image/png]');
     const parsed = parseArgs({ args: rest.slice(1), options: { 'content-type': { type: 'string' } }, strict: false });
     const c = await client();
-    const data = await readFile(resolve(file), 'base64');
-    const result = await c.uploadReference({
+    const data = await readFile(resolve(file));
+    const result = await c.uploadReferenceFile({
       data,
-      content_type: stringOption(parsed.values['content-type']) ?? 'image/png',
+      contentType: stringOption(parsed.values['content-type']) ?? 'application/octet-stream',
       filename: basename(file),
     });
     console.log(result.url);
@@ -232,6 +253,8 @@ async function runImage(c: CallirraClient, args: string[]): Promise<void> {
       out: { type: 'string' },
       reference: { type: 'string' },
       'image-input': { type: 'string' },
+      'nsfw-checker': { type: 'boolean' },
+      'google-search': { type: 'boolean' },
     },
     strict: false,
   });
@@ -240,6 +263,7 @@ async function runImage(c: CallirraClient, args: string[]): Promise<void> {
   const size = stringOption(parsed.values.size);
   const out = stringOption(parsed.values.out) ? resolve(stringOption(parsed.values.out)!) : undefined;
   const reference = stringOption(parsed.values.reference)?.split(',').map((s) => s.trim()).filter(Boolean) ?? [];
+  const boolOf = (v: unknown) => (v === undefined ? undefined : v === true || String(v) === 'true');
   const result = await c.generateImage({
     model,
     prompt,
@@ -247,14 +271,24 @@ async function runImage(c: CallirraClient, args: string[]): Promise<void> {
     n: Number.isFinite(n) && n > 0 ? n : 1,
     image_input: stringOption(parsed.values['image-input']),
     reference_images: reference.length > 0 ? reference : undefined,
+    nsfw_checker: boolOf(parsed.values['nsfw-checker']),
+    google_search: boolOf(parsed.values['google-search']),
   });
   const images = result.data ?? [];
   const urls = images.map((img) => img.url).filter((v): v is string => Boolean(v));
   const firstB64 = images[0]?.b64_json;
-  if (firstB64 && out) {
+  if (out && firstB64) {
     await c.saveBase64Image(firstB64, out);
     console.log(`Saved image to ${out}`);
     if (urls.length > 0) urls.forEach((url) => console.log(url));
+    return;
+  }
+  if (out && urls[0]) {
+    // The live API returns locally-stored signed URLs (no b64) — download it
+    // so --out always writes a file as advertised.
+    await c.downloadImage(urls[0], out);
+    console.log(`Saved image to ${out}`);
+    if (urls.length > 1) urls.slice(1).forEach((url) => console.log(url));
     return;
   }
   if (urls.length > 0) {
@@ -279,6 +313,21 @@ async function runVideo(c: CallirraClient, args: string[]): Promise<void> {
       'generate-audio': { type: 'boolean', default: false },
       'frame-image': { type: 'string' },
       'input-reference': { type: 'string' },
+      'input-images': { type: 'string' },
+      'input-videos': { type: 'string' },
+      'audio-input': { type: 'string' },
+      seed: { type: 'string' },
+      'seedance-mode': { type: 'string' },
+      'kling-mode': { type: 'string' },
+      'minimax-mode': { type: 'string' },
+      'camera-fixed': { type: 'boolean' },
+      'kling-orientation': { type: 'string' },
+      'background-source': { type: 'string' },
+      'output-format': { type: 'string' },
+      'return-last-frame': { type: 'boolean' },
+      'audio-setting': { type: 'string' },
+      'nsfw-checker': { type: 'boolean' },
+      'google-search': { type: 'boolean' },
       wait: { type: 'boolean', default: false },
       out: { type: 'string' },
     },
@@ -291,6 +340,11 @@ async function runVideo(c: CallirraClient, args: string[]): Promise<void> {
   const aspectRatio = stringOption(parsed.values['aspect-ratio']);
   const frameImages = stringOption(parsed.values['frame-image'])?.split(',').map((s) => s.trim()).filter(Boolean) ?? [];
   const inputReferences = stringOption(parsed.values['input-reference'])?.split(',').map((s) => s.trim()).filter(Boolean) ?? [];
+  const inputImages = stringOption(parsed.values['input-images'])?.split(',').map((s) => s.trim()).filter(Boolean) ?? [];
+  const inputVideos = stringOption(parsed.values['input-videos'])?.split(',').map((s) => s.trim()).filter(Boolean) ?? [];
+  const audioInput = stringOption(parsed.values['audio-input'])?.split(',').map((s) => s.trim()).filter(Boolean) ?? [];
+  const seed = parsed.values.seed ? Number(parsed.values.seed) : undefined;
+  const boolOf = (v: unknown) => (v === undefined ? undefined : v === true || String(v) === 'true');
   const { job } = await c.createVideo({
     model,
     prompt,
@@ -301,6 +355,21 @@ async function runVideo(c: CallirraClient, args: string[]): Promise<void> {
     generate_audio: parsed.values['generate-audio'] === true,
     frame_images: frameImages.length > 0 ? frameImages : undefined,
     input_references: inputReferences.length > 0 ? inputReferences : undefined,
+    input_images: inputImages.length > 0 ? inputImages : undefined,
+    input_videos: inputVideos.length > 0 ? inputVideos : undefined,
+    audio_input: audioInput.length > 0 ? audioInput : undefined,
+    seed: seed && Number.isFinite(seed) ? seed : undefined,
+    seedance_mode: stringOption(parsed.values['seedance-mode']),
+    kling_mode: stringOption(parsed.values['kling-mode']),
+    minimax_h3_mode: stringOption(parsed.values['minimax-mode']),
+    camera_fixed: boolOf(parsed.values['camera-fixed']),
+    kling_orientation: stringOption(parsed.values['kling-orientation']),
+    background_source: stringOption(parsed.values['background-source']),
+    output_format: stringOption(parsed.values['output-format']),
+    return_last_frame: boolOf(parsed.values['return-last-frame']),
+    audio_setting: stringOption(parsed.values['audio-setting']),
+    nsfw_checker: boolOf(parsed.values['nsfw-checker']),
+    google_search: boolOf(parsed.values['google-search']),
   });
   console.log(`Job created: ${job.id} (${job.status})`);
 

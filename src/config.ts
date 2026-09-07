@@ -1,7 +1,7 @@
-﻿import { homedir } from 'node:os';
+import { homedir } from 'node:os';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
-import { KEY_PREFIX } from './client.js';
+import { KEY_PREFIX } from '@callirra/client';
 
 export const CONFIG_DIR = path.join(homedir(), '.config', 'callirra');
 export const CONFIG_FILE = path.join(CONFIG_DIR, 'api_key');
@@ -17,7 +17,7 @@ export class CliError extends Error {
 
 export async function saveApiKey(key: string): Promise<string> {
   await mkdir(CONFIG_DIR, { recursive: true });
-  await writeFile(CONFIG_FILE, key.trim(), 'utf8');
+  await writeFile(CONFIG_FILE, key.trim(), { encoding: 'utf8', mode: 0o600 });
   return CONFIG_FILE;
 }
 

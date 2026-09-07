@@ -42,6 +42,7 @@ callirra usage --limit 10          # Show recent usage
 callirra models                    # List available models
 callirra gen image <prompt>        # Generate an image
 callirra gen video <prompt>        # Create a video task
+callirra videos [--limit 20]      # List recent video tasks
 callirra task <id>                 # Show task status
 callirra cancel <id>               # Cancel a task
 
@@ -61,7 +62,7 @@ callirra gen image "A cinematic product hero shot" \
   --out hero.png
 ```
 
-Options: `--model`, `--size`, `--n`, `--out`, `--reference <url1,url2>`, `--image-input <url>`.
+Options: `--model`, `--size`, `--n`, `--out`, `--reference <url1,url2>`, `--image-input <url>`, `--nsfw-checker`, `--google-search`.
 
 ### `gen video`
 
@@ -76,7 +77,7 @@ callirra gen video "A drone shot over mountains" \
   --out clip.mp4
 ```
 
-Options: `--model`, `--duration`, `--resolution`, `--mode`, `--aspect-ratio`, `--generate-audio`, `--frame-image <url1,url2>`, `--input-reference <url1,url2>`, `--wait`, `--out`.
+Options: `--model`, `--duration`, `--resolution`, `--mode`, `--aspect-ratio`, `--generate-audio`, `--frame-image <url1,url2>`, `--input-reference <url1,url2>`, `--input-images <url1,url2>`, `--input-videos <url>`, `--audio-input <url1,url2,url3>`, `--seed <n>`, `--seedance-mode`, `--kling-mode`, `--minimax-mode`, `--camera-fixed`, `--kling-orientation`, `--background-source`, `--output-format mp4|mov`, `--return-last-frame`, `--audio-setting auto|origin`, `--nsfw-checker`, `--google-search`, `--wait`, `--out`.
 
 ## Configuration
 
