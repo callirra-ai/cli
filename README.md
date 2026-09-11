@@ -1,6 +1,11 @@
 # @callirra/cli
 
-Official Callirra CLI — generate images and videos, use Prompt Studio templates, check balance and manage tasks from your terminal.
+[![npm](https://img.shields.io/npm/v/@callirra/cli?style=flat-square&label=npm)](https://www.npmjs.com/package/@callirra/cli)
+[![node](https://img.shields.io/badge/node-22%2B-1f9c6b?style=flat-square)](#requirements)
+[![license](https://img.shields.io/badge/license-MIT-555555?style=flat-square)](#license)
+[![API](https://img.shields.io/badge/API-OpenAI--compatible-0969da?style=flat-square)](https://callirra.com/api?utm_source=github-cli)
+
+Official Callirra CLI — generate images and videos, use the built-in prompt templates, check balance and manage tasks from your terminal.
 
 ## Requirements
 
@@ -46,7 +51,7 @@ callirra videos [--limit 20]      # List recent video tasks
 callirra task <id>                 # Show task status
 callirra cancel <id>               # Cancel a task
 
-# Prompt Studio / knowledge
+# Templates / knowledge
 callirra prompt templates          # List built-in templates
 callirra prompt enhance <id> <text> [--kind video|image] [--language zh|en]
 callirra creative [--full]         # Show creative knowledge summary or full JSON
@@ -91,6 +96,11 @@ Saved key location: `~/.config/callirra/api_key`.
 ## License
 
 MIT. Source: [github.com/callirra-ai/cli](https://github.com/callirra-ai/cli?utm_source=github-cli)
+
+## Related
+
+- [GPT Image 2.5 Prompt Atlas](https://github.com/callirra-ai/gpt-image-2-5-prompt-atlas) — 50 prompts, each shipped with the exact frame it produced, plus a measured Flare-vs-Sunburst comparison
+- [MCP server](https://github.com/callirra-ai/mcp?utm_source=github-cli) · [Agent skill](https://github.com/callirra-ai/skill?utm_source=github-cli) — the same catalogue for Claude Code, Cursor and Codex
 
 ---
 
