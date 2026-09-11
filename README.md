@@ -7,6 +7,8 @@
 
 Official Callirra CLI — generate images and videos, use the built-in prompt templates, check balance and manage tasks from your terminal.
 
+<img src="images/cli.png" width="100%" alt="Example CLI session: balance, generate an image with nano-banana-2, print the creative knowledge base summary and list prompt templates.">
+
 ## Requirements
 
 - Node.js 22+
