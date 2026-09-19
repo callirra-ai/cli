@@ -1,7 +1,7 @@
 import { homedir } from 'node:os';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
-import { KEY_PREFIX } from './client.js';
+import { KEY_PREFIX } from '@callirra/client';
 
 export const CONFIG_DIR = path.join(homedir(), '.config', 'callirra');
 export const CONFIG_FILE = path.join(CONFIG_DIR, 'api_key');

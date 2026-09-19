@@ -3,7 +3,7 @@ import { parseArgs } from 'node:util';
 import { readFileSync } from 'node:fs';
 import { readFile } from 'node:fs/promises';
 import { basename, resolve } from 'node:path';
-import { CallirraClient, KEY_PREFIX } from './client.js';
+import { CallirraClient, KEY_PREFIX } from '@callirra/client';
 import { CliError, resolveApiKey, saveApiKey } from './config.js';
 
 let activeClient: CallirraClient | null = null;
