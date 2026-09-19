@@ -7,7 +7,7 @@
 
 Official Callirra CLI — generate images and videos, browse 172 curated prompt recipes, and manage your account from the terminal. One API key for the newest image and video models.
 
-<img src="images/cli.png" width="100%" alt="Example CLI session: balance, generate an image with nano-banana-2, print the creative knowledge base summary and list prompt templates.">
+<img src="images/cli.png" width="100%" alt="Example CLI session: balance, generate an image with nano-banana-2, print the creative knowledge base summary and browse the prompt library.">
 
 > The prompt library ships with the package: `src/data/prompt-recipes.json` (172 recipes with their
 > settings, credits and deep links) and `src/data/scene-recipes.json` (the six worked Seedance 2.5 scenes).
@@ -66,7 +66,7 @@ callirra videos [--limit 20]      # List recent video tasks
 callirra task <id>                 # Show task status
 callirra cancel <id>               # Cancel a task
 
-# Templates / knowledge
+# Prompts / knowledge
 callirra recipes [--category x] [--limit n]   # Browse the 172-recipe prompt library
 callirra recipe <slug>                          # One recipe: prompt, settings, credits, deep link
 callirra scenes [slug]                         # The six worked Seedance 2.5 scene recipes
