@@ -17,7 +17,7 @@ export class CliError extends Error {
 
 export async function saveApiKey(key: string): Promise<string> {
   await mkdir(CONFIG_DIR, { recursive: true });
-  await writeFile(CONFIG_FILE, key.trim(), 'utf8');
+  await writeFile(CONFIG_FILE, key.trim(), { encoding: 'utf8', mode: 0o600 });
   return CONFIG_FILE;
 }
 

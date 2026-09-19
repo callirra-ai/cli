@@ -1,0 +1,152 @@
+{
+ "generatedAt": "2026-09-19T14:17:02.887Z",
+ "count": 6,
+ "slugs": [
+  "wedding",
+  "swimwear",
+  "real-face",
+  "night-club",
+  "conflict",
+  "dance"
+ ],
+ "scenes": [
+  {
+   "slug": "wedding",
+   "title": "AI Wedding Video With Real Faces — No Filter",
+   "h1": "AI wedding video, with the couple’s real faces",
+   "prompt": "The bride from @Image1 and the groom from @Image2 stand close in a courtyard strung with warm bulbs at night. He lifts her veil back with two fingers; she looks up at him and smiles, then they kiss. She is in her late twenties — full-figured, poised, in a deep-red lehenga whose gold embroidery catches the light along her waist and the curve of her hips; a heavy gold necklace, jhumka earrings, henna to her wrists. He wears an ivory sherwani. Slow push-in from a medium two-shot, handheld, focus settling on her face. Marigolds and fairy-light bokeh behind them, a dhol drummer off-screen.",
+   "settings": {
+    "model": "seedance-2-mini",
+    "modelLabel": "Seedance 2.0 Mini",
+    "mode": "image-to-video",
+    "resolution": "720p",
+    "duration": 8,
+    "aspectRatio": "9:16",
+    "audio": true,
+    "credits": 56
+   },
+   "refused": [
+    "Two photoreal faces held in close-up — the check that refuses real reference photos runs on upload.",
+    "A kiss on the mouth between adults, which is refused as intimacy regardless of how it is framed.",
+    "Skin and jewellery described in detail, which is read as a body-focused shot even in bridal wear.",
+    "A night-time crowd scene with alcohol, which lands in the same register as nightlife footage."
+   ],
+   "page": "https://callirra.com/seedance2.5/wedding"
+  },
+  {
+   "slug": "swimwear",
+   "title": "AI Swimsuit & Bikini Video Generator — Real Faces",
+   "h1": "Swimsuit and bikini campaign video, with a real model",
+   "prompt": "The model from @Image1 walks out of the surf on a Brazilian beach in the last hour of light, in a small black bikini. She is tall — a full, athletic figure, long legs, wet hair pushed back with one hand, salt and sand on her skin; the bikini clings as she turns. The camera starts low at hip height and tracks with her, holding the line of her waist and the sway of her hips before tilting slowly up to her face as she looks past the lens. Sun rimming her shoulders and the curve of her hip, spray in the air, waves breaking white behind her. Surf and gulls, no music.",
+   "settings": {
+    "model": "seedance-2-mini",
+    "modelLabel": "Seedance 2.0 Mini",
+    "mode": "image-to-video",
+    "resolution": "720p",
+    "duration": 8,
+    "aspectRatio": "9:16",
+    "audio": true,
+    "credits": 56
+   },
+   "refused": [
+    "A photoreal body in swimwear — skin is the first thing the review reacts to, before the styling.",
+    "A low-angle camera that travels up the body and settles on the face: the gaze is part of the trigger.",
+    "Wet skin and clinging fabric, described honestly, read as a body-focused shot.",
+    "A real reference photograph of a person, refused on upload by the face check."
+   ],
+   "page": "https://callirra.com/seedance2.5/swimwear"
+  },
+  {
+   "slug": "real-face",
+   "title": "AI Video With Your Own Face — Real Person, No Filter",
+   "h1": "Make a video from a photo of a real person",
+   "prompt": "The man in @Image1 sits on the edge of a hotel bed in late-afternoon light, forearms on his knees. He lifts his head slowly and looks straight into the lens — a long, level stare, jaw set, then the corner of his mouth moves. He is in his thirties, broad-shouldered and lean, an open white shirt over a vest, dark hair pushed back, three days of stubble, a faint sheen of sweat at his collarbone. Static medium close-up, 85mm, shallow depth; a hard slice of window light across his eyes, the room behind falling to shadow. Air-conditioning hum, room tone.",
+   "settings": {
+    "model": "seedance-2-mini",
+    "modelLabel": "Seedance 2.0 Mini",
+    "mode": "image-to-video",
+    "resolution": "720p",
+    "duration": 8,
+    "aspectRatio": "9:16",
+    "audio": true,
+    "credits": 56
+   },
+   "refused": [
+    "The uploaded photograph itself: a face check refuses real reference images before the prompt is read.",
+    "A photoreal face held in close-up for the whole shot.",
+    "Skin detail — an open shirt, sweat, stubble — read as a body-focused frame.",
+    "A bed in frame, which puts the shot in a private-room register even with nothing else in it."
+   ],
+   "page": "https://callirra.com/seedance2.5/real-face"
+  },
+  {
+   "slug": "night-club",
+   "title": "AI Nightclub & Party Video Generator — No Filter",
+   "h1": "Nightclub and afterparty footage, unfiltered",
+   "prompt": "The last hour of an afterparty in a penthouse. A woman in her late twenties dances barefoot on the carpet — a short black dress moving with her hips, one hand in her hair — while a man in a loosened shirt watches from a low sofa, a glass of whiskey balanced on his knee; two others are half-asleep on the far sofa. A phone flash strobes and freezes her mid-turn, then the room drops back into warm lamp light. A cigarette burning in the ashtray, bottles and melting ice on the table, city lights through the window. Deep house from a speaker, laughter, ice settling in the glass.",
+   "settings": {
+    "model": "seedance-2-mini",
+    "modelLabel": "Seedance 2.0 Mini",
+    "mode": "text-to-video",
+    "resolution": "720p",
+    "duration": 8,
+    "aspectRatio": "16:9",
+    "audio": true,
+    "credits": 56
+   },
+   "refused": [
+    "The nightlife register itself — club, afterparty, warm lamp light, a strobe — refused as a scene class.",
+    "The music cue. Tested reports put BGM words (jazz, saxophone, lounge, club electronic) near the top of what gets a prompt refused.",
+    "Alcohol and tobacco in frame, which are refused independently of everything else.",
+    "A body-focused dance shot with skin and sweat in the same frame."
+   ],
+   "page": "https://callirra.com/seedance2.5/night-club"
+  },
+  {
+   "slug": "conflict",
+   "title": "AI War & Injury Video Generation — Unfiltered",
+   "h1": "Conflict footage and injury, without the filter",
+   "prompt": "A war photographer’s frame, handheld, dust on the lens. A young soldier sits back against the wall of a ruined street with a field dressing pressed to the exit wound in his thigh; blood has run down his leg and pooled in the dirt, and the medic’s gloves are slick with it. His rifle lies in the water beside him, muzzle half submerged, the sling still across his shoulder. He lifts his head and looks up at the camera, breathing hard, sweat cutting lines through the dust on his face. Hard overcast light, smoke drifting across the street, a burning vehicle soft behind him. Automatic fire in the distance, no music.",
+   "settings": {
+    "model": "seedance-2-mini",
+    "modelLabel": "Seedance 2.0 Mini",
+    "mode": "text-to-video",
+    "resolution": "720p",
+    "duration": 8,
+    "aspectRatio": "16:9",
+    "audio": true,
+    "credits": 56
+   },
+   "refused": [
+    "Literal injury vocabulary — gunshot wound, blood, a dressing pressed to a wound — refused outright.",
+    "A weapon in frame and in use by implication.",
+    "A photoreal face in distress, in the same frame as blood.",
+    "The war/documentary register as a whole, which is classified before any individual word is weighed."
+   ],
+   "page": "https://callirra.com/seedance2.5/conflict"
+  },
+  {
+   "slug": "dance",
+   "title": "AI Dance Video Generator With Real Faces — No Filter",
+   "h1": "Dance video, shot like a phone, with a real face",
+   "prompt": "A rooftop dance video shot on a phone held at chest height. A woman in her twenties — full-figured and athletic, cropped top and loose trousers, hair coming loose — runs a sharp eight-count routine, then breaks off laughing and leans on the railing to catch her breath; sweat along her collarbones and the small of her back. The camera sways with the beat, catching a phone flash and the city lights behind her. Bass-heavy electronic music, friends counting the beat off-camera.",
+   "settings": {
+    "model": "seedance-2-mini",
+    "modelLabel": "Seedance 2.0 Mini",
+    "mode": "text-to-video",
+    "resolution": "720p",
+    "duration": 8,
+    "aspectRatio": "9:16",
+    "audio": true,
+    "credits": 56
+   },
+   "refused": [
+    "A photoreal body in motion with visible skin and sweat.",
+    "The music cue — electronic, bass-heavy — which testing found sufficient on its own to get a prompt refused.",
+    "A handheld phone-camera look, which lands in the same register as user-shot footage.",
+    "A real face held in frame through the whole move."
+   ],
+   "page": "https://callirra.com/seedance2.5/dance"
+  }
+ ]
+}
