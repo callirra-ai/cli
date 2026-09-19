@@ -9,6 +9,11 @@ Official Callirra CLI — generate images and videos, browse 172 curated prompt 
 
 <img src="images/cli.png" width="100%" alt="Example CLI session: balance, generate an image with nano-banana-2, print the creative knowledge base summary and list prompt templates.">
 
+> The prompt library ships with the package: `src/data/prompt-recipes.json` (172 recipes with their
+> settings, credits and deep links) and `src/data/scene-recipes.json` (the six worked Seedance 2.5 scenes).
+> They are generated from Callirra's own library by the monorepo's build, so the recipe commands work offline
+> and need no API key. The browsable version is <https://callirra.com/seedance-prompt-library>.
+
 ## Requirements
 
 > **The built-in template catalogue was retired (Sep 2026), and its commands went with it**: the endpoint
